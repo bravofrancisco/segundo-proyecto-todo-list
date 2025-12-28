@@ -21,6 +21,9 @@ public class ResponseTasksDTO {
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
 
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime updatedAt; // ✅ añadido
+
     public ResponseTasksDTO() {
     }
 
@@ -30,7 +33,8 @@ public class ResponseTasksDTO {
                             EnumStatus status,
                             EnumPriority priority,
                             LocalDateTime dueDate,
-                            LocalDateTime createdAt) {
+                            LocalDateTime createdAt,
+                            LocalDateTime updatedAt) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -38,6 +42,7 @@ public class ResponseTasksDTO {
         this.priority = priority;
         this.dueDate = dueDate;
         this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     // =========================
@@ -51,7 +56,8 @@ public class ResponseTasksDTO {
                 task.getStatus(),
                 task.getPriority(),
                 task.getDueDate(),
-                task.getCreatedAt()
+                task.getCreatedAt(),
+                task.getUpdatedAt() // ✅ añadido
         );
     }
 
@@ -76,4 +82,7 @@ public class ResponseTasksDTO {
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }

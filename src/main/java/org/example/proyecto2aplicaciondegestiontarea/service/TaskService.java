@@ -8,20 +8,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface TaskService {
-
-    List<ResponseTasksDTO> findAll();
-
-    @Transactional(readOnly = true)
     Page<ResponseTasksDTO> findAll(Pageable pageable);
 
+    List<ResponseTasksDTO> findAll();
     ResponseTasksDTO findById(Long id);
-
     ResponseTasksDTO save(RequestTasksDTO requestTasksDTO);
-
     ResponseTasksDTO update(Long id, RequestTasksDTO requestTasksDTO);
-
     void delete(Long id);
 
     List<ResponseTasksDTO>findByStatus(EnumStatus status);
@@ -39,6 +34,6 @@ public interface TaskService {
     List<ResponseTasksDTO>searchByText(String text);
 
 
-    // 👇 ESTE es el nuevo método correcto
-    Page<ResponseTasksDTO> findAllPageable(Pageable pageable);
+//    // 👇 ESTE es el nuevo método correcto
+//    Page<ResponseTasksDTO> findAllPageable(Pageable pageable);
 }

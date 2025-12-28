@@ -2,6 +2,7 @@ package org.example.proyecto2aplicaciondegestiontarea.service;
 
 import org.example.proyecto2aplicaciondegestiontarea.dto.RequestTasksDTO;
 import org.example.proyecto2aplicaciondegestiontarea.dto.ResponseTasksDTO;
+import org.example.proyecto2aplicaciondegestiontarea.exception.TaskNotFoundException;
 import org.example.proyecto2aplicaciondegestiontarea.models.Enum.EnumPriority;
 import org.example.proyecto2aplicaciondegestiontarea.models.Enum.EnumStatus;
 import org.example.proyecto2aplicaciondegestiontarea.models.Task;
@@ -10,8 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,7 +34,7 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findAll()
                 .stream()
                 .map(ResponseTasksDTO::fromEntity)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Transactional(readOnly = true)
@@ -52,10 +51,7 @@ public class TaskServiceImpl implements TaskService {
     @Transactional(readOnly = true)
     public ResponseTasksDTO findById(Long id) {
         Task task = taskRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Tarea no encontrada con id: " + id)
-                );
-
+                .orElseThrow(() -> new TaskNotFoundException(id));
         return ResponseTasksDTO.fromEntity(task);
     }
 
@@ -85,10 +81,7 @@ public class TaskServiceImpl implements TaskService {
     public ResponseTasksDTO update(Long id, RequestTasksDTO dto) {
 
         Task task = taskRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Tarea no encontrada con id: " + id)
-                );
-
+                .orElseThrow(() ->new TaskNotFoundException(id));
         task.setTitle(dto.getTitle());
         task.setDescription(dto.getDescription());
         task.setStatus(dto.getStatus());
@@ -106,10 +99,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void delete(Long id) {
         Task task = taskRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Tarea no encontrada con id: " + id)
-                );
-
+                .orElseThrow(() -> new TaskNotFoundException(id));
         taskRepository.delete(task);
     }
 
@@ -119,7 +109,7 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findByStatus(status)
                 .stream()
                 .map(ResponseTasksDTO::fromEntity)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -127,7 +117,7 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findByPriority(enumPriority)
                 .stream()
                 .map(ResponseTasksDTO::fromEntity)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -135,7 +125,7 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findByStatusAndPriority(status,priority)
                 .stream()
                 .map(ResponseTasksDTO::fromEntity)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -162,8 +152,6 @@ public class TaskServiceImpl implements TaskService {
                 .toList();
     }
 
-
-    @Override
     @Transactional(readOnly = true)
     public Page<ResponseTasksDTO>findAllPageable(Pageable pageable){
         return taskRepository.findAllBy(pageable)

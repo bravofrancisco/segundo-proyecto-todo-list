@@ -34,6 +34,14 @@ public class RequestTasksDTO {
     public RequestTasksDTO() {
     }
 
+    public RequestTasksDTO(String title, String description, EnumStatus status, EnumPriority priority, LocalDateTime dueDate) {
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.priority = priority;
+        this.dueDate = dueDate;
+    }
+
     // Getters y setters
     public String getTitle() {
         return title;
