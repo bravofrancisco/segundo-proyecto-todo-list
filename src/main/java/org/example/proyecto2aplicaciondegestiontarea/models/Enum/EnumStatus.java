@@ -5,13 +5,13 @@ public enum EnumStatus {
     IN_PROGRESS("En progreso"),
     COMPLETED("Completado");
 
-    private final String labe;
+    private final String label;
 
-    EnumStatus(String labe) {
-        this.labe = labe;
+    EnumStatus(String label) {
+        this.label = label;
     }
 
-    public String getLabe() {
-        return labe;
+    public String getLabel() {
+        return label;
     }
 }

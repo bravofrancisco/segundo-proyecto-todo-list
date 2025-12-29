@@ -69,7 +69,7 @@ public class GlobalException {
         error.put("timestamp", LocalDateTime.now());
         error.put("status", HttpStatus.BAD_REQUEST.value());
         error.put("error", "Bad Request");
-        error.put("message", "El parámetro '" + ex.getName() + "' debe ser un número válido");
+        error.put("message", "El parámetro '" + ex.getName() + "' debe ser un número inválido");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 }
